@@ -539,63 +539,50 @@ console.log(walletAddress);
             </div>
           </motion.div>
 
-         {/* NFTs Section */}
-<div className="mb-8">
-  <h2 className="text-2xl font-bold text-white mb-6">My NFTs</h2>
+         {/* Certificates Section */}
+         <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-6">My Certificates & Credentials</h2>
 
-  {nfts.length === 0 ? (
-    <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 text-center">
-      <p className="text-purple-200">You don't have any NFTs yet.</p>
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {nfts.map((nft, index) => (
-        <motion.div
-          key={`${nft.contract}-${nft.identifier}`}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: index * 0.1 }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-          }}
-        >
-          <Card className="overflow-hidden bg-white/10 backdrop-blur-md border-purple-400/30 cursor-pointer">
-            <div className="relative h-48">
-              <Image
-                src={nft.image_url || "/placeholder.svg"}
-                alt={nft.name || "NFT"}
-                fill
-                className="object-cover"
-              />
-              <div className="absolute top-2 right-2 bg-purple-700 text-white text-xs px-2 py-1 rounded-full">
-                NFT
+            {certificates.length === 0 ? (
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 text-center">
+                <p className="text-purple-200">You don't have any certificates yet.</p>
               </div>
-            </div>
-            <CardContent className="p-4">
-              <h3 className="font-bold text-lg text-white truncate">
-                {nft.name || "Untitled NFT"}
-              </h3>
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-purple-200 text-sm truncate">
-                  {nft.collection?.name || "Unknown Collection"}
-                </p>
-                <a
-                  href={`https://opensea.io/assets/${nft.chain?.identifier || "ethereum"}/${nft.contract}/${nft.identifier}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-purple-300 hover:underline"
-                >
-                  View
-                </a>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {certificates.map((cert, index) => (
+                  <motion.div
+                    key={cert.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    }}
+                  >
+                    <Card
+                      className="overflow-hidden bg-white/10 backdrop-blur-md border-purple-400/30 cursor-pointer"
+                      onClick={() => viewCertificate(cert)}
+                    >
+                      <div className="relative h-48">
+                        <Image src={cert.image || "/placeholder.svg"} alt={cert.name} fill className="object-cover" />
+                        <div className="absolute top-2 right-2 bg-purple-700 text-white text-xs px-2 py-1 rounded-full">
+                          {cert.type === "course" ? "Course" : "Company"}
+                        </div>
+                      </div>
+                      <CardContent className="p-4">
+                        <h3 className="font-bold text-lg text-white truncate">{cert.name}</h3>
+                        <div className="flex justify-between items-center mt-2">
+                          <p className="text-purple-200 text-sm">{cert.issuer}</p>
+                          <p className="text-purple-300 text-xs">{new Date(cert.date).toLocaleDateString()}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
-    </div>
-  )}
-</div>
+            )}
+          </div>
 
           {/* Resume Generation */}
           <motion.div
